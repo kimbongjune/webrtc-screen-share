@@ -78,6 +78,10 @@
         </span>
         <button id="bthSharing" value="stop">Start Sharing</button>
     </div>
+    <div id="divPlayer" class="dsh-player">
+        <video id="plrVideo" autoplay playsinline></video>
+    </div>
+    <div>test</div>
     <script type="module">
         import presenter from './assets/js/presenter.js';
         var presenterObj = new presenter({
@@ -109,6 +113,7 @@
             document.getElementById('lblPresenterId').innerText = this.socket ? this.socket.id : '-';
             document.getElementById('lblOnlineViewers').innerText = Object.keys(this.viewers).length;
             document.getElementById('lblSharingStatus').innerText = this.sharingStream.display ? 'shared' : 'not shared';
+            document.getElementById("divPlayer").style.display = this.sharingStream.display ?  'block' : 'none';
             if (this.sharingStream.display) {
                 document.getElementById('divStatus').classList.add('dsh-active');
                 document.getElementById('cmbMechanism').disabled = true;

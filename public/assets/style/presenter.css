@@ -5,6 +5,47 @@ body {
   margin: 0;
 }
 
+.dsh-player {
+  background-color: rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.18);
+          box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.18);
+  height: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  display: none;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.dsh-player .dsh-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.dsh-player .dsh-loader img {
+  width: 5rme;
+  height: 5rem;
+}
+
+.dsh-player video {
+  height: 100%;
+  width: 100%;
+}
+
 .dsh-status {
   background-color: #de8e31;
   padding: 1rem;

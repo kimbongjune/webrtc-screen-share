@@ -187,6 +187,13 @@ export default class presenter {
         }
         if (startEvent) {
             startEvent.call();
+
+            this.sharingStream.display.getVideoTracks().forEach((track) => {
+                if (track.kind === "video") {
+                    let presenterVideo = document.getElementById('plrVideo');
+                    presenterVideo.srcObject = new MediaStream([track]);
+                }
+            });
         }
 
         let tracks = this.getTracks();
@@ -255,6 +262,11 @@ export default class presenter {
         this.sharingStream.display = null;
         if (stopEvent) {
             stopEvent.call();
+        }
+        let presenterVideo = document.getElementById('plrVideo');
+        if (presenterVideo.srcObject) {
+            presenterVideo.srcObject.getTracks().forEach(track => track.stop());
+            presenterVideo.srcObject = null;
         }
         this.stop();
         this.socket.emit("presenterStopSharing");
