@@ -52,16 +52,15 @@ app.use(express.static('public'));
 /*
  * Definition of global variables.
  */
-var stIdCounter = 0;
-var stCandidatesQueue = {};
-var stKurentoClient = null;
-var stPresenter = {};
-var stViewers = [];
-var stNoPresenterMessage = 'No active presenter. Try again later...';
+let stIdCounter = 0;
+let stCandidatesQueue = {};
+let stKurentoClient = null;
+let stPresenter = {};
+let stNoPresenterMessage = 'No active presenter. Try again later...';
 
-var presenter = {};
-var viewers = {};
-var waitingViewers = {};
+let presenter = {};
+let viewers = {};
+let waitingViewers = {};
 
 const stOptions = {
 	ws_uri: 'ws://' + kurentoIP + ':' + kurentoPort + '/kurento'
