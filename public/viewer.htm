@@ -38,10 +38,77 @@
     </div>
     <div id="divPlayer" class="dsh-player">
         <div id="divLoader" class="dsh-loader"><img src="./assets/image/loading.gif" /></div>
-        <video id="plrVideo" autoplay playsinline controls></video>
+        <video id="plrVideo" autoplay playsinline></video>
+    </div>
+    <div id="divControls" class="dsh-controls">
+        <button id="btnReset" disabled>Reset Video</button>
     </div>
     <script type="module">
         import viewer from './assets/js/viewer.js';
+        var video = document.getElementById("plrVideo");
+        var btnReset = document.getElementById("btnReset");
+        var scale = 1, originX = 0, originY = 0;
+        var translateX = 0, translateY = 0;
+        var startX = 0, startY = 0;
+        var dragging = false;
+        var transformed = false;  // 추가된 변수, 비디오가 변형되었는지 추적
+
+        document.addEventListener('wheel', function(event) {
+            if (event.target === video) {
+                var delta = event.deltaY * -0.01;
+                scale += delta;
+                scale = Math.max(1, scale);
+                updateVideoTransform();
+                event.preventDefault();
+                transformed = true;
+                btnReset.disabled = false;  // 버튼 활성화
+            }
+        }, { passive: false });
+
+        video.addEventListener('mousedown', function(event) {
+            dragging = true;
+            startX = event.pageX - translateX;
+            startY = event.pageY - translateY;
+            video.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', function(event) {
+            if (dragging) {
+                translateX = event.pageX - startX;
+                translateY = event.pageY - startY;
+                updateVideoTransform();
+                transformed = true;
+                btnReset.disabled = false;  // 버튼 활성화
+            }
+        });
+
+        document.addEventListener('mouseup', function(event) {
+            dragging = false;
+            video.style.cursor = 'grab';
+        });
+
+        document.addEventListener('mouseleave', function(event) {
+            dragging = false;
+            video.style.cursor = 'grab';
+        });
+
+        btnReset.addEventListener('click', function() {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            updateVideoTransform();
+            btnReset.disabled = true;  // 버튼 비활성화
+            transformed = false;
+        });
+
+        function updateVideoTransform() {
+            video.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        document.getElementById('plrVideo').addEventListener('play', () => {
+            document.getElementById('divLoader').style.display = 'none';
+        });
+
         var events = { 'start': null, 'stop': null };
         var viewerObj = new viewer({
             player: document.getElementById('plrVideo'),
